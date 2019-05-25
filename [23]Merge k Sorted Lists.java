@@ -26,60 +26,36 @@ class Solution {
         if (lists.length == 0) {
             return null;
         }
-        ListNode first = lists[0];
-        ListNode temp = null;
-        int i = 0;
+        return mergeLists(lists, 0, lists.length - 1);
+    }
 
-        if (lists.length == 1) {
-            return first;
+    public ListNode mergeLists(ListNode[] lists, int start, int end) {
+        if (start == end) {
+            return lists[start];
+        }
+        int mid = (start + end) / 2;
+
+        ListNode left = mergeLists(lists, start, mid);
+        ListNode right = mergeLists(lists, mid + 1, end);
+
+        return mergeTwoNodes(left, right);
+    }
+
+    public ListNode mergeTwoNodes(ListNode left, ListNode right) {
+        if (left == null) {
+            return right;
+        }
+        if (right == null) {
+            return left;
         }
 
-        for (i = 0; i < lists.length; i++) {
-            if (lists[i] == null) {
-                continue;
-            }
-            if (
-                    (first == null) ||
-                            first.val > lists[i].val
-            ) {
-                lists[0] = lists[i];
-                lists[i] = first;
-                first = lists[0];
-            }
+        if (left.val < right.val) {
+            left.next = mergeTwoNodes(left.next, right);
+            return left;
+        } else {
+            right.next = mergeTwoNodes(left, right.next);
+            return right;
         }
-
-        ListNode firstp = lists[0];
-
-        while (firstp != null) {
-
-            for (i = 1; i < lists.length; i++) {
-                if (lists[i] == null) {
-                    continue;
-                }
-                if (lists[i].val == firstp.val) {
-                    temp = lists[i];
-                    lists[i] = lists[i].next;
-                    temp.next = firstp.next;
-                    firstp.next = temp;
-                } else if (lists[i].val > firstp.val) {
-                    if (firstp.next == null) {
-                        firstp.next = lists[i];
-                        lists[i] = lists[i].next;
-                        firstp.next.next = null;
-                    } else {
-                        if (firstp.next.val > lists[i].val) {
-                            temp = lists[i];
-                            lists[i] = lists[i].next;
-                            temp.next = firstp.next;
-                            firstp.next = temp;
-                        }
-                    }
-                }
-            }
-            firstp = firstp.next;
-        }
-
-        return first;
     }
 
 //    public class ListNode {
