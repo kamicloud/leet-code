@@ -44,11 +44,6 @@ var longestPalindrome = function(s) {
         if (temp.length > string.length) {
             string = temp;
         }
-        // if (string.length > s.length - i) {
-        //     return string;
-        // }
     }
     return string;
-
 };
-longestPalindrome('cbbd')
