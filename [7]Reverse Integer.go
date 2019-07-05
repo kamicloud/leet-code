@@ -26,8 +26,12 @@
 //
 
 func reverse(x int) int {
-	var y = 0
+	return int(reverse32(int32(x)))
+}
+func reverse32(x int32) int32 {
+	var y int32 = 0
 
+	var oldy int32 = 0
 	var egtZero = true
 
 	if x < 0 {
@@ -36,8 +40,13 @@ func reverse(x int) int {
 	}
 
 	for {
+		oldy = y
 		y = y*10 + x%10
 		x = x / 10
+
+		if oldy != y / 10 {
+			return 0
+		}
 
 		if x == 0 {
 			break
@@ -48,16 +57,5 @@ func reverse(x int) int {
 		y = -y
 	}
 
-	if y > math.MaxInt32 || y < math.MinInt32 {
-		return 0
-	}
-
 	return y
-}
-
-func reverseString(s []byte) []byte {
-	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
-		s[i], s[j] = s[j], s[i]
-	}
-	return s
 }
