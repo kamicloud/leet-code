@@ -58,7 +58,67 @@
 // The given board size is always 9x9. 
 // 
 //
+package main
 
 func isValidSudoku(board [][]byte) bool {
-    
+	for i := 0; i < len(board); i++ {
+		var m = make(map[byte]byte)
+		for j := 0; j < len(board[i]); j++ {
+			_, err := m[board[i][j]]
+			if err != false {
+				return false
+			}
+
+			if board[i][j] != '.' {
+				m[board[i][j]] = board[i][j]
+			}
+		}
+	}
+
+	for j := 0; j < len(board[0]); j++ {
+		var m = make(map[byte]byte)
+		for i := 0; i < len(board); i++ {
+			_, err := m[board[i][j]]
+			if err != false {
+				return false
+			}
+
+			if board[i][j] != '.' {
+				m[board[i][j]] = board[i][j]
+			}
+		}
+	}
+
+	for i := 0; i < len(board); i+= 3 {
+		for j := 0; j < len(board[i]); j+= 3 {
+			k, l := i, j
+
+			var m = make(map[byte]byte)
+			for {
+				_, err := m[board[k][l]]
+				if err != false {
+					return false
+				}
+
+
+				if board[k][l] != '.' {
+					m[board[k][l]] = board[k][l]
+				}
+
+				if k%3 == 2 {
+					if l%3 < 2 {
+						l++
+						k = i
+					} else {
+						break
+					}
+				} else {
+					k++
+				}
+			}
+
+		}
+	}
+
+	return true
 }
